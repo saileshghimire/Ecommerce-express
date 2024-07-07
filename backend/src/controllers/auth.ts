@@ -8,13 +8,13 @@ import { ErrorCodes } from '../exceptions/root';
 // import { prismaClient } from '..';
 import { UnprocessableEntity } from '../exceptions/validation';
 import { SignupSchema } from '../schema/users';
+import { NotFoundException } from '../exceptions/not-found';
 
 const prisma = new PrismaClient();
 // const prisma = prismaClient
 
 export const Signup = async (req:Request, res: Response, next:NextFunction) =>{
-    try{
-        const body = req.body;
+    const body = req.body;
         SignupSchema.parse(body)
         let user = await prisma.user.findFirst({
             where:{
@@ -32,12 +32,6 @@ export const Signup = async (req:Request, res: Response, next:NextFunction) =>{
             }
         })
         return res.status(200).json(user);
-
-    } catch(error:any){
-        console.log(error);
-        
-        next(new UnprocessableEntity(error?.issues, 'Unprocessable Entity', ErrorCodes.Unprocessable_ENTITY))
-    }
 }
 
 export const Signin = async (req:Request, res:Response) =>{
@@ -48,10 +42,10 @@ export const Signin = async (req:Request, res:Response) =>{
         }
     });
     if(!user){
-        throw Error("User doesnot exist");
+        throw new NotFoundException('User doesnot exist',ErrorCodes.USER_NOT_FOUND);
     }
     if(!compareSync(body.password,user.password)){
-        throw Error("Incorrect password");
+        throw new BadRequestsException('Incorrect password', ErrorCodes.INCORRECT_PASSWORD);
     }
     const token = jwt.sign({userId:user.id},JWT_SECRET);
     return res.status(200).json(token);

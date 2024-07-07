@@ -19,5 +19,7 @@ export enum ErrorCodes {
     USER_NOT_FOUND = 1001,
     USER_ALREADY_EXISTS = 1002,
     INCORRECT_PASSWORD = 1003,
-    Unprocessable_ENTITY= 20001
+    Unprocessable_ENTITY= 2001,
+    INTERNAL_EXCEPTION=3001,
+    UNAUTHORIZED_ACCESS=4001
 }

@@ -17,5 +17,6 @@ var ErrorCodes;
     ErrorCodes[ErrorCodes["USER_NOT_FOUND"] = 1001] = "USER_NOT_FOUND";
     ErrorCodes[ErrorCodes["USER_ALREADY_EXISTS"] = 1002] = "USER_ALREADY_EXISTS";
     ErrorCodes[ErrorCodes["INCORRECT_PASSWORD"] = 1003] = "INCORRECT_PASSWORD";
-    ErrorCodes[ErrorCodes["Unprocessable_ENTITY"] = 20001] = "Unprocessable_ENTITY";
+    ErrorCodes[ErrorCodes["Unprocessable_ENTITY"] = 2001] = "Unprocessable_ENTITY";
+    ErrorCodes[ErrorCodes["INTERNAL_EXCEPTION"] = 3001] = "INTERNAL_EXCEPTION";
 })(ErrorCodes || (exports.ErrorCodes = ErrorCodes = {}));
