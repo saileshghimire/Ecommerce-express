@@ -7,4 +7,8 @@ const auth_1 = require("../middleware/auth");
 const admin_1 = require("../middleware/admin");
 const productRoutes = (0, express_1.Router)();
 productRoutes.post('/', [auth_1.authMiddleware, admin_1.adminMiddleware], (0, error_handler_1.errorHandler)(product_1.createProduct));
+productRoutes.put('/:id', [auth_1.authMiddleware, admin_1.adminMiddleware], (0, error_handler_1.errorHandler)(product_1.updateProduct));
+productRoutes.delete('/:id', [auth_1.authMiddleware, admin_1.adminMiddleware], (0, error_handler_1.errorHandler)(product_1.deleteProduct));
+productRoutes.get('/', [auth_1.authMiddleware, admin_1.adminMiddleware], (0, error_handler_1.errorHandler)(product_1.listProduct));
+productRoutes.get('/:id', [auth_1.authMiddleware, admin_1.adminMiddleware], (0, error_handler_1.errorHandler)(product_1.getProductById));
 exports.default = productRoutes;

@@ -20,4 +20,5 @@ var ErrorCodes;
     ErrorCodes[ErrorCodes["Unprocessable_ENTITY"] = 2001] = "Unprocessable_ENTITY";
     ErrorCodes[ErrorCodes["INTERNAL_EXCEPTION"] = 3001] = "INTERNAL_EXCEPTION";
     ErrorCodes[ErrorCodes["UNAUTHORIZED_ACCESS"] = 4001] = "UNAUTHORIZED_ACCESS";
+    ErrorCodes[ErrorCodes["PRODUCT_NOT_FOUND"] = 5001] = "PRODUCT_NOT_FOUND";
 })(ErrorCodes || (exports.ErrorCodes = ErrorCodes = {}));
