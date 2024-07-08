@@ -7,5 +7,5 @@ const auth_2 = require("../middleware/auth");
 const authRoutes = (0, express_1.Router)();
 authRoutes.post('/signup', (0, error_handler_1.errorHandler)(auth_1.Signup));
 authRoutes.post('/signin', (0, error_handler_1.errorHandler)(auth_1.Signin));
-authRoutes.get('/me', auth_2.authMiddleware, (0, error_handler_1.errorHandler)(auth_1.me));
+authRoutes.get('/me', [auth_2.authMiddleware], (0, error_handler_1.errorHandler)(auth_1.me));
 exports.default = authRoutes;

@@ -13,20 +13,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.me = exports.Signin = exports.Signup = void 0;
-const client_1 = require("@prisma/client");
 const bcryptjs_1 = require("bcryptjs");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const secrets_1 = require("../secrets");
 const bad_request_1 = require("../exceptions/bad-request");
 const root_1 = require("../exceptions/root");
+const __1 = require("..");
 const users_1 = require("../schema/users");
 const not_found_1 = require("../exceptions/not-found");
-const prisma = new client_1.PrismaClient();
+// const prisma = new PrismaClient();
 // const prisma = prismaClient
 const Signup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const body = req.body;
     users_1.SignupSchema.parse(body);
-    let user = yield prisma.user.findFirst({
+    let user = yield __1.prisma.user.findFirst({
         where: {
             email: body.email
         }
@@ -34,7 +34,7 @@ const Signup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
     if (user) {
         next(new bad_request_1.BadRequestsException('User already exist', root_1.ErrorCodes.USER_ALREADY_EXISTS));
     }
-    user = yield prisma.user.create({
+    user = yield __1.prisma.user.create({
         data: {
             name: body.name,
             email: body.email,
@@ -46,7 +46,7 @@ const Signup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
 exports.Signup = Signup;
 const Signin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const body = req.body;
-    let user = yield prisma.user.findFirst({
+    let user = yield __1.prisma.user.findFirst({
         where: {
             email: body.email
         }

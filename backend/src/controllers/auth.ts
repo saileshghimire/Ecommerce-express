@@ -5,12 +5,12 @@ import jwt from "jsonwebtoken";
 import { JWT_SECRET } from '../secrets';
 import { BadRequestsException } from '../exceptions/bad-request';
 import { ErrorCodes } from '../exceptions/root';
-// import { prismaClient } from '..';
+import { prisma } from '..';
 import { UnprocessableEntity } from '../exceptions/validation';
 import { SignupSchema } from '../schema/users';
 import { NotFoundException } from '../exceptions/not-found';
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
 // const prisma = prismaClient
 
 export const Signup = async (req:Request, res: Response, next:NextFunction) =>{

@@ -9,25 +9,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.errorHandler = void 0;
+exports.adminMiddleware = void 0;
+const unauthorized_1 = require("../exceptions/unauthorized");
 const root_1 = require("../exceptions/root");
-const internal_exception_1 = require("../exceptions/internal-exception");
-const errorHandler = (method) => {
-    return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            yield method(req, res, next);
+const adminMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = req.user;
+    try {
+        if (user.role == 'ADMIN') {
+            next();
         }
-        catch (error) {
-            console.log(error);
-            let exception;
-            if (error instanceof root_1.HttpException) {
-                exception = error;
-            }
-            else {
-                exception = new internal_exception_1.InternalException('Something went wrong!', error, root_1.ErrorCodes.INTERNAL_EXCEPTION);
-            }
-            next(exception);
+        else {
+            next(new unauthorized_1.UnauthorizedException('Unauthorized', root_1.ErrorCodes.UNAUTHORIZED_ACCESS));
         }
-    });
-};
-exports.errorHandler = errorHandler;
+    }
+    catch (error) {
+        next(new unauthorized_1.UnauthorizedException('Unauthorized', root_1.ErrorCodes.UNAUTHORIZED_ACCESS));
+    }
+});
+exports.adminMiddleware = adminMiddleware;

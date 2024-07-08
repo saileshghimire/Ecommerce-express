@@ -17,8 +17,7 @@ const unauthorized_1 = require("../exceptions/unauthorized");
 const root_1 = require("../exceptions/root");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const secrets_1 = require("../secrets");
-const client_1 = require("@prisma/client");
-const prisma = new client_1.PrismaClient;
+const __1 = require("..");
 const authMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const token = req.headers.authorization;
@@ -26,7 +25,7 @@ const authMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
             next(new unauthorized_1.UnauthorizedException('Unauthorized', root_1.ErrorCodes.UNAUTHORIZED_ACCESS));
         }
         const payload = jsonwebtoken_1.default.verify(token, secrets_1.JWT_SECRET);
-        const user = yield prisma.user.findFirst({ where: { id: payload.userId } });
+        const user = yield __1.prisma.user.findFirst({ where: { id: payload.userId } });
         if (user) {
             req.user = user;
             next();

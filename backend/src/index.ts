@@ -14,6 +14,8 @@ app.use(express.json());
 
 app.use('/api',rootRouter);
 
+export const prisma = new PrismaClient();
+
 // export const prismaClient = new PrismaClient({
 //     log:['query']
 // }).$extends({

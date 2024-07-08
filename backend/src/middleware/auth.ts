@@ -3,9 +3,7 @@ import { UnauthorizedException } from "../exceptions/unauthorized";
 import { ErrorCodes } from "../exceptions/root";
 import jwt from 'jsonwebtoken'
 import { JWT_SECRET } from "../secrets";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient;
+import { prisma } from "..";
 
 export const authMiddleware = async (req:Request, res:Response, next:NextFunction) => {
     try {
