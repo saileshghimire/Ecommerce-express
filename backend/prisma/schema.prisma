@@ -13,6 +13,14 @@ enum Role {
   USER
 }
 
+enum OrderEventStatus {
+  PENDING
+  ACCEPTED
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -30,7 +38,7 @@ model User {
   updatedAt DateTime @updatedAt
   addresses Address[]
   cartItems CartItem[]
-
+  orders Order[]
 }
 
 model Address {
@@ -57,6 +65,7 @@ model Product {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   cartItems CartItem[]
+  orders OrderProduct[]
   
 }
 
@@ -67,6 +76,39 @@ model CartItem {
   productId Int
   product Product @relation(fields: [productId], references: [id])
   quantity Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id Int @default(autoincrement()) @unique
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+  netAmount Decimal
+  address String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt 
+  products OrderProduct[]
+  events OrderEvent[]
+}
+
+model OrderProduct {
+  id Int @default(autoincrement()) @unique
+  orderId Int
+  order Order @relation(fields: [orderId], references: [id])
+  productId Int
+  product Product @relation(fields: [productId], references: [id])
+  quantity Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt  
+}
+
+model OrderEvent{
+  id Int @default(autoincrement()) @unique
+  orderId Int
+  order Order @relation(fields: [orderId], references: [id]) 
+  quantity Int
+  status OrderEventStatus @default(PENDING)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
