@@ -24,6 +24,8 @@ model User {
   email String @unique
   password String
   role Role @default(USER)
+  defaultShippingAddress Int?
+  defaultBillingAddress Int?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   addresses Address[]
@@ -40,7 +42,6 @@ model Address {
   line String?
   userId Int
   user User @relation(fields: [userId], references: [id])
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt  
 }
