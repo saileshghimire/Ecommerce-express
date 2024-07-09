@@ -17,14 +17,33 @@ export const addItemToCart = async (req:Request, res:Response)=> {
     } catch (error) {
         throw new NotFoundException('Product Not Found', ErrorCodes.PRODUCT_NOT_FOUND);
     }
-
-    const cart = await prisma.cartItem.create({
-        data:{
+    const existingCartItem = await prisma.cartItem.findFirst({
+        where: {
             userId: req.user.id,
-            productId:validateData.productId,
-            quantity:validateData.quantity
-        }
+            productId: validateData.productId,
+        },
     });
+    let cart
+    if (existingCartItem) {
+        // If the cart item exists, update the quantity
+        cart = await prisma.cartItem.update({
+            where: {
+                id: existingCartItem.id,
+            },
+            data: {
+                quantity: existingCartItem.quantity + validateData.quantity,
+            },
+        });
+    } else{
+        cart = await prisma.cartItem.create({
+            data:{
+                userId: req.user.id,
+                productId:validateData.productId,
+                quantity:validateData.quantity
+            }
+        });
+    }    
+
     res.json(cart);
 
 }
