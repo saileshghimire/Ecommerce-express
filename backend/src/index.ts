@@ -14,20 +14,27 @@ app.use(express.json());
 
 app.use('/api',rootRouter);
 
-export const prisma = new PrismaClient();
+export const prisma = new PrismaClient().$extends({
+    result:{
+        address:{
+            formattedAddress:{
+                needs:{
+                    district:true,
+                    state:true,
+                    municipality:true,
+                    ward:true,
+                    tole:true,
+                    line:true
+                },
+                compute:(addr) =>{
+                    return `${addr.state}, ${addr.district}, ${addr.municipality}- ${addr.ward}, ${addr.tole}, ${addr.line}`;
+                }
+            }
+        }
+    }
+});
 
-// export const prismaClient = new PrismaClient({
-//     log:['query']
-// }).$extends({
-//     query:{
-//         user:{
-//             create({args,query}) {
-//                 args.data = SignupSchema.parse(args.data)
-//                 return query(args)
-//             }
-//         }
-//     }
-// })
+
 
 app.use(errorMiddleware);
 
